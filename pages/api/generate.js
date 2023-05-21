@@ -80,7 +80,7 @@ export default async function handler(req, res) {
         },
         {
           headers: {
-            'Authorization': `Bearer ${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}`,
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_OPENAI_API_KEY}`,
             'Content-Type': 'application/json',
           },
         }
