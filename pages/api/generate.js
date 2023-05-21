@@ -80,7 +80,7 @@ export default async function handler(req, res) {
         },
         {
           headers: {
-            'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+            'Authorization': `Bearer ${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}`,
             'Content-Type': 'application/json',
           },
         }
