@@ -1,17 +1,56 @@
-import Link from 'next/link';
-import { getPosts } from '../utils/mdx-utils';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+// importfrom "./index.module.css";
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Layout, { GradientBackground } from '../components/Layout';
-import ArrowIcon from '../components/ArrowIcon';
 import { getGlobalData } from '../utils/global-data';
+
 import SEO from '../components/SEO';
 
-export default function Index({ posts, globalData }) {
+export default function Home(globalData) {
+  //Creo una serie di variabili da riutilizzare all'interno 
+  //del body della mia chiamata asincrona
+  const [numberOfDays, setNumberOfDays] = useState(''); /* */
+  const [timeOfYear, setTimeOfYear] = useState('');
+  const [typeOfTransport, setTypeOfTransport] = useState('');
+  const [priceRange, setPriceRange] = useState('');
+  const [generatedText, setGeneratedText] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch('/api/generate/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          numberOfDays,
+          timeOfYear,
+          typeOfTransport,
+          priceRange,
+        }),
+      });
+
+      const data = await response.json();
+      setGeneratedText(data.generatedText);
+    } catch (error) {
+      //creo una seire di hendler dello stato e del messaggio di errore per eventuali debug da fare
+      if (error.response) {
+        console.log(error.response.status);
+        console.log(error.response.data);
+      } else {
+        console.log(error.message);
+      }
+      console.error(error);
+      alert(error.message);
+    }
+  };
+
   return (
     <Layout>
-      <SEO title={globalData.name} description={globalData.blogDescription} />
+       <SEO title={globalData.name} description={globalData.blogDescription} />
       <Header name={globalData.name} />
       <main className="md:container md:mx-auto">
         <h1 className="text-3xl font-bold font-mono lg:text-5xl text-center mb-8">
@@ -20,95 +59,53 @@ export default function Index({ posts, globalData }) {
         <h3 className="font-light font-mono text-l lg:text-xl text-center mb-12">
           {globalData.blogDescription}
         </h3>
-        <div className="grid grid-cols-3 gap-4 rounded-3xl mb-12 p-4 backdrop-blur-lg bg-white dark:bg-black dark:bg-opacity-30 bg-opacity-10 hover:bg-opacity-20 dark:hover:bg-opacity-50 transition border border-gray-800 dark:border-white border-opacity-10 dark:border-opacity-10 border-b-0 last:border-b hover:border-b hovered-sibling:border-t-0">
-          <div>
-            <h3 className="font-light font-mono text-l lg:text-xl">Weather:</h3>
-            <label className="block">
-              Hot <input type="checkbox" class="rounded text-pink-500" />
-            </label>
-            <label className="block">
-              Just fine <input type="checkbox" class="rounded text-pink-500" />
-            </label>
-            <label className="block">
-              Cold <input type="checkbox" class="rounded text-pink-500" />
-            </label>
-          </div>
-          <div>
-            <h3 className="font-light font-mono text-l lg:text-xl">
-              Price Range:
-            </h3>
 
-            <input type="range" class="rounded text-pink-500" />
-          </div>
-          <div>
-            <h3 className="font-light font-mono text-l lg:text-xl">
-              Type of destination:
-            </h3>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Number of days:
+          <input
+            type="text"
+            value={numberOfDays}
+            onChange={(e) => setNumberOfDays(e.target.value)}
+          />
+        </label>
 
-            <label>
-              Europe <input type="checkbox" class="rounded text-pink-500" />
-            </label>
-            <label>
-              National <input type="checkbox" class="rounded text-pink-500" />
-            </label>
-            <label>
-              International{' '}
-              <input type="checkbox" class="rounded text-pink-500" />
-            </label>
-          </div>
+        <label>
+          Time of year:
+          <input
+            type="text"
+            value={timeOfYear}
+            onChange={(e) => setTimeOfYear(e.target.value)}
+          />
+        </label>
+
+        <label>
+          Type of transport:
+          <input
+            type="text"
+            value={typeOfTransport}
+            onChange={(e) => setTypeOfTransport(e.target.value)}
+          />
+        </label>
+
+        <label>
+          Price range:
+          <input
+            type="text"
+            value={priceRange}
+            onChange={(e) => setPriceRange(e.target.value)}
+          />
+        </label>
+
+        <button type="submit">Generate</button>
+      </form>
+
+      {generatedText && (
+        <div>
+          <h2>Generated Text:</h2>
+          <p>{generatedText}</p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {posts.map((post) => (
-            <div
-              key={post.filePath}
-              className="flex-auto rounded-3xl radius  backdrop-blur-lg bg-white dark:bg-black dark:bg-opacity-30 bg-opacity-10 hover:bg-opacity-20 dark:hover:bg-opacity-50 transition border border-gray-800 dark:border-white border-opacity-10 dark:border-opacity-10 border-b-0 last:border-b hover:border-b hovered-sibling:border-t-0"
-            >
-              <Link
-                legacyBehavior
-                as={`/posts/${post.filePath.replace(/\.mdx?$/, '')}`}
-                href={`/posts/[slug]`}
-              >
-                <a className="py-6 lg:py-10 px-6 lg:px-16 block focus:outline-none focus:ring-4">
-                  {/* {post.data.date && (
-                    <p className="uppercase mb-3 font-bold opacity-60">
-                      {post.data.date}
-                    </p>
-                  )} */}
-                  <h2 className="text-2xl md:text-3xl">🛫 {post.data.title}</h2>
-                  {post.data.pricerange && (
-                    <p className="uppercase mb-3 font-bold opacity-60">
-                      Price Range: {post.data.pricerange}
-                    </p>
-                  )}
-                  {post.data.weather && (
-                    <p className="uppercase mb-3 font-bold opacity-60">
-                      The weather here is:
-                      <span className="opacity-100 text-purple-900 dark:text-green-500">
-                        {' '}
-                        {post.data.weather}
-                      </span>
-                    </p>
-                  )}
-                  {post.data.flight && (
-                    <p className="uppercase mb-3 font-bold opacity-60">
-                      The flight will last:
-                      <span className="opacity-100 text-purple-900 dark:text-green-500">
-                        {' '}
-                        {post.data.flight}
-                      </span>
-                    </p>
-                  )}
-                  {/* <h4 className="text-md md:text-large">The weather here is: cold 🥶 – just fine 👌 – hot 🥵</h4>
-                   <h4 className="text-md md:text-large">Price Range:&euro;&euro;</h4>
-                   <h4 className="text-md md:text-large">The flight will last at least: 🛫 between 1-3 hours || 🛫🛫 between 3 and 6 hours || 🛫🛫🛫 more than 6 hours</h4> */}
-
-                  <ArrowIcon className="mt-2" />
-                </a>
-              </Link>
-            </div>
-          ))}
-        </div>
+      )}
       </main>
       <Footer copyrightText={globalData.footerText} />
       <GradientBackground
@@ -122,10 +119,63 @@ export default function Index({ posts, globalData }) {
     </Layout>
   );
 }
+//   async function onSubmit(event) {
+//     event.preventDefault();
+//     try {
+//       const response = await fetch('/api/generate', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ animal: promptTrigger }),
+//       });
 
-export function getStaticProps() {
-  const posts = getPosts();
-  const globalData = getGlobalData();
+//       const data = await response.json();
+//       if (response.status !== 200) {
+//         throw (
+//           data.error ||
+//           new Error(`Request failed with status ${response.status}`)
+//         );
+//       }
 
-  return { props: { posts, globalData } };
-}
+//       setResult(data.result);
+//       setpromptTrigger('');
+//     } catch (error) {
+//       if (error.response) {
+//         console.log(error.response.status);
+//         console.log(error.response.data);
+//       } else {
+//         console.log(error.message);
+//       }
+//       console.error(error);
+//       alert(error.message);
+//     }
+//   }
+
+//   return (
+//     <div>
+//       <Head>
+//         {/* <title>OpenAI Quickstart</title> */}
+//         {/* <link rel="icon" href="/dog.png" /> */}
+//       </Head>
+
+//       <main>
+//         {/* <img src="/dog.png" /> */}
+//         <h3>ESCAPISM</h3>
+//         <form onSubmit={onSubmit}>
+//           <input
+//             type="text"
+//             name="trigger"
+//             placeholder="Where do you want to go?"
+//             value={promptTrigger}
+//             onChange={(e) => setpromptTrigger(e.target.value)}
+//           />
+//           <input type="submit" value="Generate destination" />
+//         </form>
+//         <div>
+//           <h1>{result}</h1>
+//         </div>
+//       </main>
+//     </div>
+//   );
+// }
