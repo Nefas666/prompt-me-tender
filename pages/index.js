@@ -7,7 +7,7 @@ import { getGlobalData } from '../utils/global-data';
 
 import SEO from '../components/SEO';
 
-export default function Home(globalData) {
+export default function Index(globalData) {
   //Creo una serie di variabili da riutilizzare all'interno 
   //del body della mia chiamata asincrona
   const [numberOfDays, setNumberOfDays] = useState(''); /* */
