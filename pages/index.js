@@ -20,7 +20,7 @@ export default function Index(globalData) {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/generate', {
+      const response = await fetch('/api/generate/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
