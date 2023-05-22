@@ -19,7 +19,7 @@ export default function Index(globalData) {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/generate/', {
+      const response = await fetch('/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -49,14 +49,14 @@ export default function Index(globalData) {
 
   return (
     <Layout>
-       <SEO title={globalData.name || `🪂` } description={globalData.blogDescription || `🪂`} />
+       <SEO title={globalData.name || `🪂` } description={globalData.blogDescription || `Prompt me Tender: your one-stop destination for personalized trip planning! With our innovative integration of OpenAI API, Next.js, Node.js, and Cypress, we offer a seamless user experience for planning your dream getaway.`} />
       <Header name={globalData.name || `🪂`} />
       <main className="md:container md:mx-auto">
         <h1 className="text-3xl font-bold font-mono lg:text-5xl text-center mb-8">
           {globalData.blogTitle || `🪂 Prompt me Tender🪂` }
         </h1>
         <h3 className="font-light font-mono text-l lg:text-xl text-center mb-12">
-          {globalData.blogDescription}
+          {globalData.blogDescription || `Prompt me Tender: your one-stop destination for personalized trip planning! With our innovative integration of OpenAI API, Next.js, Node.js, and Cypress, we offer a seamless user experience for planning your dream getaway.`}
         </h3>
 
       <form onSubmit={handleSubmit}>
