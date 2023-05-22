@@ -1,6 +1,23 @@
-![Netlify Next.js Blog Template designed by Bejamas](github-banner.svg)
+# Prompt Me Tender
 
-[![Deploy to Netlify Button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/nextjs-blog-theme)
+CHAT GPT3 Prompt based suggestion for your next trip, based on variable parameters.
+
+## API Reference
+
+#### POST Prompt
+
+```http
+  POST /api/generate
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_key` | `string` | **Required**. Your OPENAI API key |
+
+
+
+
+## Acknowledgements
 
 A customizable blog starter using:
 
@@ -9,11 +26,8 @@ A customizable blog starter using:
 - Built-in [MDX](https://mdxjs.com/) v1 support
 - Includes modern design with dark & light themes
 
-![Preview of blog theme. Author named Jay Doe and blog's name is "Next.js Blog Theme" with one blog post](nextjs-blog-theme-preview.png)
+#### Netlify Next.js Blog Template designed by Bejamas
 
-[Take a gander at the demo.](https://bejamas-nextjs-blog.netlify.app)
-
-[Click here to watch the template walkthrough!](https://www.youtube.com/watch?v=63QZHs259dY)
 
 ## Table of Contents:
 

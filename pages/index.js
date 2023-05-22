@@ -4,7 +4,6 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Layout, { GradientBackground } from '../components/Layout';
 import { getGlobalData } from '../utils/global-data';
-
 import SEO from '../components/SEO';
 
 export default function Index(globalData) {
@@ -50,11 +49,11 @@ export default function Index(globalData) {
 
   return (
     <Layout>
-       <SEO title={globalData.name} description={globalData.blogDescription} />
-      <Header name={globalData.name} />
+       <SEO title={globalData.name || `🪂` } description={globalData.blogDescription || `🪂`} />
+      <Header name={globalData.name || `🪂`} />
       <main className="md:container md:mx-auto">
         <h1 className="text-3xl font-bold font-mono lg:text-5xl text-center mb-8">
-          {globalData.blogTitle}
+          {globalData.blogTitle || `🪂 Prompt me Tender🪂` }
         </h1>
         <h3 className="font-light font-mono text-l lg:text-xl text-center mb-12">
           {globalData.blogDescription}
@@ -97,7 +96,7 @@ export default function Index(globalData) {
           />
         </label>
 
-        <button type="submit">Generate</button>
+        <button className="m-auto btn btn-3" type="submit"><strong>Suggest!</strong></button>
       </form>
 
       {generatedText && (
@@ -107,7 +106,7 @@ export default function Index(globalData) {
         </div>
       )}
       </main>
-      <Footer copyrightText={globalData.footerText} />
+      <Footer copyrightText={globalData.footerText || `All rights reserved.\n\n Made with ❤`} />
       <GradientBackground
         variant="large"
         className="fixed top-20 opacity-40 dark:opacity-60"
@@ -118,6 +117,13 @@ export default function Index(globalData) {
       />
     </Layout>
   );
+}
+
+export function getStaticProps() {
+  const globalData = getGlobalData();
+  console.log(globalData);
+
+  return { props: { globalData } };
 }
 //   async function onSubmit(event) {
 //     event.preventDefault();
