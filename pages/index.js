@@ -102,7 +102,7 @@ export default function Index(globalData) {
       {generatedText && (
         <div>
           <h2>Generated Text:</h2>
-          <p>{generatedText}</p>
+          <li>{generatedText}</li>
         </div>
       )}
       </main>
