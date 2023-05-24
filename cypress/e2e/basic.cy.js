@@ -4,6 +4,6 @@ describe('sample render test', () => {
   });
 
   it('displays the title text', () => {
-    cy.get('label').contains('Time of year:');
+    cy.get('label').contains('🌞🌧️Time of year:');
   });
 });

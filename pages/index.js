@@ -86,7 +86,7 @@ export default function Index(globalData) {
         </label>
 
         <label className="font-medium">
-        🌞🌧️ Time of year:
+        🌞🌧️Time of year:
           <input
             type="text"
             value={timeOfYear}
