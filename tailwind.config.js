@@ -1,9 +1,8 @@
 module.exports = {
   theme: {
     fontFamily: {
-      'mono': ['IBM Plex Mono', 'monospace','ui-monospace', 'SFMono-Regular'],
-      
-    }
+      mono: ['IBM Plex Mono', 'monospace', 'ui-monospace', 'SFMono-Regular'],
+    },
   },
 
   mode: 'jit',
@@ -13,7 +12,5 @@ module.exports = {
   ],
   darkMode: 'class', // or 'media' or 'class'
   presets: [require('./utils/tailwind-preset')],
-  plugins: [
-    require('@tailwindcss/forms'),
-  ],
+  plugins: [require('@tailwindcss/forms')],
 };
