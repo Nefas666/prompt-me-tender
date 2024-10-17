@@ -8,16 +8,6 @@ import SEO from '../components/SEO';
 import TravelCard from '../components/TravelCard';
 
 export default function Index(globalData) {
-  /**
-   * TODO: pulire il generatedText della chiamata precedente quando c'è una nuova chiamata
-   */
-  /**
-   * TODO: fixare stile loader
-   */
-
-  //*Creo una serie di variabili da riutilizzare all'interno
-  //*del body della mia chiamata asincrona
-
   const [numberOfDays, setNumberOfDays] = useState(''); /* */
   const [timeOfYear, setTimeOfYear] = useState('');
   const [typeOfTransport, setTypeOfTransport] = useState('');
@@ -48,7 +38,6 @@ export default function Index(globalData) {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      //creo una seire di handler dello stato e del messaggio di errore per eventuali debug da fare
       if (error.response) {
         console.log(error.response.status);
         console.log(error.response.data);
@@ -69,8 +58,8 @@ export default function Index(globalData) {
           `Prompt me Tender: your one-stop destination for personalized trip planning! Select the number of days, preferred transportation method, desired season, and budget, and let our intelligent platform do the rest. We integrate Google Gemini AI API, Next.js, Node.js, and Cypress to provide a seamless user experience that caters to your unique preferences and requirements.`
         }
       />
-      <Header name={globalData.name || `🪂`} />
-      <main className="md:container md:mx-auto p-4">
+      <main className="p-4 grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
+        <section className="row-span-1">
         <h1 className="text-3xl font-bold font-mono lg:text-5xl text-center mb-8">
           {globalData.blogTitle || `🪂 Prompt me Tender🪂`}
         </h1>
@@ -120,23 +109,25 @@ export default function Index(globalData) {
             />
           </label>
 
-          <button className="m-auto btn btn-3 col-span-2" type="submit">
+          <button className="btn btn-3 col-span-full" type="submit">
             <strong className="font-mono">Suggest!</strong>
           </button>
         </form>
+        </section>
         {isLoading && <Loader />}
         {generatedText &&
-          <div className="backdrop-blur-sm bg-white/30 mt-4">
+          <section className="backdrop-blur-sm bg-white/30 mt-4 row-auto">
             <TravelCard
               numberOfDays={numberOfDays}
               timeOfYear={timeOfYear}
               typeOfTransport={typeOfTransport}
               priceRange={priceRange}
             />
-          </div>
+          </section>
         }
       </main>
       <Footer
+      className="row-span-full"
         copyrightText={
           globalData.footerText || `All rights reserved.\n\n Made with ❤`
         }
