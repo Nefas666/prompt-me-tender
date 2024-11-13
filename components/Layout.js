@@ -50,8 +50,8 @@ export default function Layout({ children }) {
   }, []);
 
   return (
-    <div className="overflow-hidden">
-      <div className="p-5 m-5">
+    <div className="overflow-hidden container relative mx-auto">
+      <div className="p-2 m-2">
         {children}
       </div>
     </div>
